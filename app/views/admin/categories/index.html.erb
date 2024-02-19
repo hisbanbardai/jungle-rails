@@ -18,7 +18,9 @@
       </thead>
       <tbody>
         <% @categories.each do |category| %>
-          <%= category.name %>
+          <tr>
+            <td><%= category.name %></td>
+          </tr>
         <% end %>  
       </tbody>
     </table>
