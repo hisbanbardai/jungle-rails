@@ -18,6 +18,7 @@ Rails.application.routes.draw do
     root to: 'dashboard#show'
     resources :products, except: [:edit, :update, :show]
     resources :categories, only: [:index, :create, :new]
+    resources :sales, only: [:index]
   end
 
    # These routes will be for signup. The first renders a form in the browse, the second will 
