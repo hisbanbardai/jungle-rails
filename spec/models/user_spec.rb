@@ -65,4 +65,26 @@ RSpec.describe User, type: :model do
 
     expect(@user_2.errors.full_messages).to include "Email has already been taken"
   end
+
+  it 'is not valid when an email that already exists in the database is entered with different casing' do
+     @user_1 = User.new(
+      name: 'Hisban',
+      email: 'test@test.com',
+      password: '12345',
+      password_confirmation: '12345'
+    )
+    @user_1.save
+    expect(@user_1).to be_valid
+
+    @user_2 = User.new(
+      name: 'Ali',
+      email: 'TEST@TEST.com',
+      password: '12345',
+      password_confirmation: '12345'
+    )
+    @user_2.save
+    expect(@user_2).to_not be_valid
+
+    expect(@user_2.errors.full_messages).to include "Email has already been taken"
+  end
 end
