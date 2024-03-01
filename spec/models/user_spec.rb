@@ -11,6 +11,17 @@ RSpec.describe User, type: :model do
     expect(@user).to be_valid
   end
 
+  it 'is not valid without a name' do
+     @user = User.new(
+      name: nil,
+      email: 'test@test.com',
+      password: '12345',
+      password_confirmation: '12345'
+    )
+    expect(@user).to_not be_valid
+    expect(@user.errors.full_messages).to include "Name can't be blank"
+  end
+
   it 'is not valid without a password' do
      @user = User.new(
       name: 'Hisban',
