@@ -1,7 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe User, type: :model do
-  it 'successfully creates a new user when all valid fields are entered' do
+  describe 'Validations' do
+  
+    it 'successfully creates a new user when all valid fields are entered' do
     @user = User.new(
       name: 'Hisban',
       email: 'test@test.com',
@@ -9,9 +11,9 @@ RSpec.describe User, type: :model do
       password_confirmation: '12345'
     )
     expect(@user).to be_valid
-  end
+    end
 
-  it 'is not valid without a name' do
+    it 'is not valid without a name' do
      @user = User.new(
       name: nil,
       email: 'test@test.com',
@@ -20,9 +22,9 @@ RSpec.describe User, type: :model do
     )
     expect(@user).to_not be_valid
     expect(@user.errors.full_messages).to include "Name can't be blank"
-  end
+    end
 
-  it 'is not valid without an email' do
+    it 'is not valid without an email' do
      @user = User.new(
       name: 'Hisban',
       email: nil,
@@ -31,9 +33,9 @@ RSpec.describe User, type: :model do
     )
     expect(@user).to_not be_valid
     expect(@user.errors.full_messages).to include "Email can't be blank"
-  end
+    end
 
-  it 'is not valid without a password' do
+    it 'is not valid without a password' do
      @user = User.new(
       name: 'Hisban',
       email: 'test@test.com',
@@ -42,9 +44,9 @@ RSpec.describe User, type: :model do
     )
     expect(@user).to_not be_valid
     expect(@user.errors.full_messages).to include "Password can't be blank"
-  end
+    end
 
-  it 'is not valid without a password confirmation' do
+    it 'is not valid without a password confirmation' do
      @user = User.new(
       name: 'Hisban',
       email: 'test@test.com',
@@ -53,9 +55,9 @@ RSpec.describe User, type: :model do
     )
     expect(@user).to_not be_valid
     expect(@user.errors.full_messages).to include "Password confirmation can't be blank"
-  end
+    end
 
-  it 'is not valid when password and password_confirmation fields do not match' do
+    it 'is not valid when password and password_confirmation fields do not match' do
      @user = User.new(
       name: 'Hisban',
       email: 'test@test.com',
@@ -64,9 +66,9 @@ RSpec.describe User, type: :model do
     )
     expect(@user).to_not be_valid
     expect(@user.errors.full_messages).to include "Password confirmation doesn't match Password"
-  end
+    end
 
-  it 'is not valid when email already exists in the database' do
+    it 'is not valid when email already exists in the database' do
      @user_1 = User.new(
       name: 'Hisban',
       email: 'test@test.com',
@@ -86,9 +88,9 @@ RSpec.describe User, type: :model do
     expect(@user_2).to_not be_valid
 
     expect(@user_2.errors.full_messages).to include "Email has already been taken"
-  end
+    end
 
-  it 'is not valid when an email that already exists in the database is entered with different casing' do
+    it 'is not valid when an email that already exists in the database is entered with different casing' do
      @user_1 = User.new(
       name: 'Hisban',
       email: 'test@test.com',
@@ -108,9 +110,9 @@ RSpec.describe User, type: :model do
     expect(@user_2).to_not be_valid
 
     expect(@user_2.errors.full_messages).to include "Email has already been taken"
-  end
+    end
 
-  it 'is not valid when length of the password is less than 5 characters' do
+    it 'is not valid when length of the password is less than 5 characters' do
      @user = User.new(
       name: 'Hisban',
       email: 'test@test.com',
@@ -119,5 +121,6 @@ RSpec.describe User, type: :model do
     )
     expect(@user).to_not be_valid
     expect(@user.errors.full_messages).to include "Password is too short (minimum is 5 characters)"
+    end
   end
 end
