@@ -19,7 +19,7 @@ RSpec.describe User, type: :model do
       password_confirmation: '12345'
     )
     expect(@user).to_not be_valid
-    expect(@user.errors.full_messages.first).to eq "Password can't be blank"
+    expect(@user.errors.full_messages).to include "Password can't be blank"
   end
 
   it 'is not valid without a password confirmation' do
@@ -30,7 +30,7 @@ RSpec.describe User, type: :model do
       password_confirmation: nil
     )
     expect(@user).to_not be_valid
-    expect(@user.errors.full_messages.first).to eq "Password confirmation can't be blank"
+    expect(@user.errors.full_messages).to include "Password confirmation can't be blank"
   end
 
   it 'is not valid when password and password_confirmation fields do not match' do
@@ -41,6 +41,28 @@ RSpec.describe User, type: :model do
       password_confirmation: '1234'
     )
     expect(@user).to_not be_valid
-    expect(@user.errors.full_messages.first).to eq "Password confirmation doesn't match Password"
+    expect(@user.errors.full_messages).to include "Password confirmation doesn't match Password"
+  end
+
+  it 'is not valid when email already exists in the database' do
+     @user_1 = User.new(
+      name: 'Hisban',
+      email: 'test@test.com',
+      password: '12345',
+      password_confirmation: '12345'
+    )
+    @user_1.save
+    expect(@user_1).to be_valid
+
+    @user_2 = User.new(
+      name: 'Ali',
+      email: 'test@test.com',
+      password: '12345',
+      password_confirmation: '12345'
+    )
+    @user_2.save
+    expect(@user_2).to_not be_valid
+
+    expect(@user_2.errors.full_messages).to include "Email has already been taken"
   end
 end
