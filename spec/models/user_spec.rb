@@ -137,5 +137,17 @@ RSpec.describe User, type: :model do
     expect(@user.authenticate_with_credentials('test@test.com', '123456')).to_not be nil
     expect(@user.authenticate_with_credentials('test@test.com', '123456')).to eql(@user)
     end
+
+    it 'does not authenticate a user when provided email does not exist in the database' do
+      @user = User.new(
+      name: 'Hisban',
+      email: 'test@test.com',
+      password: '123456',
+      password_confirmation: '123456'
+    )
+    @user.save
+    expect(@user).to be_valid
+    expect(@user.authenticate_with_credentials('test1@test.com', '123456')).to be nil
+    end
   end
 end
