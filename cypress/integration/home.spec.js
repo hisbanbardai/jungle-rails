@@ -1,6 +1,6 @@
 describe("Home page", () => {
   beforeEach(() => {
-    cy.visit("/");
+    cy.visit("http://localhost:3000/");
   });
 
   it("There is products on the page", () => {
